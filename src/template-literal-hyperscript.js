@@ -1,7 +1,5 @@
-export const defaultConfig = {
-  matcher: /^(\s*)(\S*)\s*(\S.*[\n]?)?$/,
-  textMatcher: /^(\s*)\$(.*[\n]?)?$/
-};
+const matcher = /^(\s*)(\S*)\s*(\S.*[\n]?)?$/;
+const textMatcher = /^(\s*)\$(.*[\n]?)?$/;
 
 const appendOrConcatenate = (arr, item) => {
   if (arr.length && typeof arr[arr.length-1] == 'string' && typeof item == 'string') {
@@ -22,11 +20,9 @@ export const splitLines = (strs, ...params) => strs.reduce((a, str, i) => {
     return a;
   }, [[]]);
   
-
-  
 let getAttrs = row => {
-  let matches = row[0].match(defaultConfig.matcher);
-  let tms = row[0].match(defaultConfig.textMatcher);
+  let matches = row[0].match(matcher);
+  let tms = row[0].match(textMatcher);
   let attrs = {
     _wsl: (tms?tms[1]:matches[1]).length,
     children: []

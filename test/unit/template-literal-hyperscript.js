@@ -1,4 +1,4 @@
-import {defaultConfig, splitLines, templateLiteralHyperscript} from '../../src/template-literal-hyperscript';
+import {splitLines, templateLiteralHyperscript} from '../../src/template-literal-hyperscript';
 import hyperscript from 'hyperscript';
 
 describe('templateLiteralHyperscript', () => {

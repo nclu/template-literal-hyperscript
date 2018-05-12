@@ -66,7 +66,6 @@ describe('templateLiteralHyperscript', () => {
         ).outerHTML
       );
       
-      console.log('test multiple branches');
       expect(
         t`div
             h1 title
@@ -87,6 +86,70 @@ describe('templateLiteralHyperscript', () => {
             hyperscript('li', 'two')
           )
         ).outerHTML
+      );
+      expect(
+        t`div#page
+            div#header
+              h1.classy ${{style: {'background-color': '#22f'}}}h
+            div#menu${{style: {'background-color': '#2f2'}}}
+              ul
+                li one
+                li two
+                li three
+            h2 ${{style: {'background-color': '#f22'}}}content title
+            p
+              $so it's just like a templating engine,${'\n'}
+              $but easy to use inline with javascript
+            p
+              $the intention is for this to be used to create${'\n'}
+              $reusable, interactive html widgets.`.outerHTML
+      ).to.eql(
+        hyperscript(
+            'div#page',
+            hyperscript(
+                'div#header',
+                hyperscript(
+                    'h1.classy',
+                    'h',
+                    {style: {'background-color': '#22f'}}
+                )
+            ),
+            hyperscript(
+                'div#menu',
+                {style: {'background-color': '#2f2'}},
+                hyperscript(
+                    'ul',
+                    hyperscript('li', 'one'),
+                    hyperscript('li', 'two'),
+                    hyperscript('li', 'three')
+                )
+            ),
+            hyperscript(
+                'h2',
+                'content title',
+                {style: {'background-color': '#f22'}}
+            ),
+            hyperscript(
+                'p',
+                'so it\'s just like a templating engine,\n',
+                'but easy to use inline with javascript'
+            ),
+            hyperscript(
+                'p',
+                'the intention is for this to be used to create\n',
+                'reusable, interactive html widgets.'
+            )
+        ).outerHTML
+      );
+    });
+    it('Is pretty chill with escaping a line of raw text using $', () => {      
+      let t = templateLiteralHyperscript(hyperscript);
+    
+      expect(
+        t`p
+            $This is my content`.outerHTML
+      ).to.eql(
+        hyperscript('p', 'This is my content').outerHTML
       );
     });
   });
